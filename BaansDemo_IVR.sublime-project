@@ -1,0 +1,14 @@
+{
+	"folders":
+	[
+		{
+			"follow_symlinks":true,
+			"path": "C:\\Summit_Apps\\BaansDemo_IVR"
+		}
+	],
+	"build_path":"C:\\Summit_Apps\\BaansDemo_IVR",
+	"application_id": "0a3ea0d1-e6fc-4bae-91f4-055711adfe17",
+	"api_key": "TwuMvLnkRih2jJqg3BOoZcC",
+	"api_secret": "9MW3Y.Alq2jO6CZaRcXk/L=EesTPv!",
+	"use_live_datastore": "true"
+}

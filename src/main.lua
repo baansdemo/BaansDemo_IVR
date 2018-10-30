@@ -5,6 +5,9 @@ channel.answer()
 channel.play("assets://sounds/Titanic.wav")
 
 function demofunction()
+
+channel.play("assets://sounds/Titanic.wav")
+
 channel.say("Thank you for choosing us. Please press 1 to listen again and 2 to talk to our expert.")
 
 local digit = channel.gather()

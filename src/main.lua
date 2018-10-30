@@ -2,7 +2,7 @@
 -- coverage: 0
 channel.answer()
 
-channel.play("assets://sounds/Titanic.wav")
+--channel.play("assets://sounds/Titanic.wav")
 
 function demofunction()
 
@@ -24,29 +24,3 @@ channel.hangup()
 end
 
 print(demofunction())
-
-
-function writeDebugResult(ResultData)
-    debug_results = debug_results .. tostring(time.now('US/Central')) .. '  ' ..  ResultData .. '\r\n'
-end
-
-function TelescopeTimeStamp()
-    return (string.gsub(tostring(time.now("UTC")),' ', 'T') .. 'Z')
-end
-
-function readCID(CID)
-    --detect if ANI received is blank or nil and writes appropriate value to results
-    if CID == nil or CID == '' then
-        CallerIDTelescope = 'Not Provided' .. '\r'
-    else
-        CallerIDTelescope = CID
-    end
-print(CallerIDTelescope)
---    writeDebugResult('Start Time Z: ' .. TelescopeTimeStamp())
---    writeDebugResult('Start Time CST: ' .. tostring(time.now('US/Central')))
---    writeDebugResult('Callerid: ' .. CallerIDTelescope)
-    --writeDebugResult('-----------------------------------------------------------------')
---    writeDebugResult('-------------------START CALL ACTIONS----------------------------')
-end
-
-local x = readCID(channel.data.ani)

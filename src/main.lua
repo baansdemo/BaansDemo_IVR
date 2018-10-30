@@ -2,7 +2,7 @@
 -- coverage: 0
 channel.answer()
 
-channel.play("assets://sounds/Titanic.mp3")
+channel.play("assets://sounds/GPV1.wav")
 
 function demofunction()
 channel.say("Thank you for choosing us. Please press 1 to listen again and 2 to talk to our expert.")

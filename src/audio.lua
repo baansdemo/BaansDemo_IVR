@@ -33,13 +33,13 @@ channel.say(dnis)
 
 --print(dnis)
 
---local StandardTicket = {1,2,3}
+local StandardTicket = {1,2,3}
 
 if dnis == '+13176086250' then
-	--for i=1,3 do
-		audioselect(4)
+	for i=1,3 do
+		audioselect(StandardTicket[i])
 		--channel.say("1 If you do not begin your work within 10 calendar days of the start date and time or if your work is interrupted for more than 10 consecutive days, the marks will no longer be valid until you have requested and received a relocate for the area.",{voice="man"})
-	--end
+	end
 end
 channel.say("If you would like to repeat this message, press 1,If you have questions and would like to speak with a representative, press 2",{voice="man"})
 local digit = channel.gather()

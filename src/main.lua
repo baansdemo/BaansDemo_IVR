@@ -2,6 +2,8 @@
 -- coverage: 0
 channel.answer()
 
+local assets = require('summit.asset')
+
 channel.play("assets://sounds/Titanic.wav")
 
 function demofunction()
@@ -24,4 +26,3 @@ channel.hangup()
 end
 
 print(demofunction())
-

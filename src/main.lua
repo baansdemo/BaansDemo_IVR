@@ -1,10 +1,10 @@
 -- This comment enforces unit-test coverage for this file:
 -- coverage: 0
+local asset = require('summit.asset')
+
 channel.answer()
 
-local assets = require('summit.asset')
-
-channel.play("assets://sounds/Titanic.wav")
+channel.play("asset://sounds/titanic.wav")
 
 function demofunction()
 

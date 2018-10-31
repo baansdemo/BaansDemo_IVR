@@ -20,7 +20,7 @@ channel.say(dnis)
 
 --local StandardTicket = {1,2,3}
 
-if dnis == '3176086250' then
+if dnis == '+13176086250' then
 	--for i=1,3 do
 		--audioselect(StandardTicket[i])
 		channel.say("1 If you do not begin your work within 10 calendar days of the start date and time or if your work is interrupted for more than 10 consecutive days, the marks will no longer be valid until you have requested and received a relocate for the area.",{voice="man"})

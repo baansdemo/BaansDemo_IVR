@@ -14,7 +14,7 @@ function demofunction()
 
 local dnis = channel.data.dnis
 channel.say(dnis)
-local dnis= 3176086250
+--local dnis= 3176086250
 
 --print(dnis)
 

@@ -8,10 +8,10 @@ channel.say("The following statements provide valuable information regarding you
 
 
 function audioselect(numb)
-	if numb == 1 then channel.say("If you do not begin your work within 10 calendar days of the start date and time or if your work is interrupted for more than 10 consecutive days, the marks will no longer be valid until you have requested and received a relocate for the area.",{voice="man"})
-	else if numb == 2 then channel.say("Utilities will mark the area using color coded paint and flags. You need to stay 18 inches away on all sides of any markings with any power equipment used in the work. If you need to go closer, use hand-tools only and dig very carefully.",{voice="man"})
+	if numb == '1' then channel.say("1 If you do not begin your work within 10 calendar days of the start date and time or if your work is interrupted for more than 10 consecutive days, the marks will no longer be valid until you have requested and received a relocate for the area.",{voice="man"})
+	else if numb == 2 then channel.say("2 Utilities will mark the area using color coded paint and flags. You need to stay 18 inches away on all sides of any markings with any power equipment used in the work. If you need to go closer, use hand-tools only and dig very carefully.",{voice="man"})
 	else if numb == 3 then channel.say("Lines owned by the property owner such as many propane lines, sewer and water laterals or yard lighting will not be marked by the utilities.",{voice="man"})
-	else if numb == 4 then channel.say("The member or members in question should respond by telephone as soon as possible or by the start date/time, whichever is later, to indicate when the facilities will be marked. No matter how the start date and time may read on the ticket itself, you will NOT be clear to dig until all member companies have responded in some fashion. In addition, excavating without waiting for member companies to respond and/or locate could result in you being liable for any damages that may occur.",{voice="man"})
+	else if numb == '4' then channel.say("The member or members in question should respond by telephone as soon as possible or by the start date/time, whichever is later, to indicate when the facilities will be marked. No matter how the start date and time may read on the ticket itself, you will NOT be clear to dig until all member companies have responded in some fashion. In addition, excavating without waiting for member companies to respond and/or locate could result in you being liable for any damages that may occur.",{voice="man"})
 	else if numb == 5 then channel.say("The member or members in question should respond by telephone as soon as possible or by the start date/time, whichever is later, to indicate when the facilities will be remarked. No matter how the start date and time may read on the ticket itself, you will NOT be clear to dig until ALL facilities at the work site have been marked by member companies.",{voice="man"})
 	else if numb == 6 then channel.say("This ticket is only for planning purposes. You are not legally clear to dig on this ticket. A standard locate request must be filed at least three business days prior to excavation.",{voice="man"})
 	end
@@ -41,7 +41,7 @@ if dnis == 3176086239 then
 		audioselect(StandardTicket[i])
 	end
 
-else if dnis == 3176086250 then
+else if dnis == '3176086250' then
 	for i=1,4 do
 		audioselect(EmergencyTicket[i])
 	end

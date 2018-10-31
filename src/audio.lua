@@ -30,9 +30,6 @@ local dnis = channel.data.dnis
 
 --print(dnis)
 
---channel.play("assets://sounds/Titanic.wav")
---channel.say("Thank you for choosing us. Please press 1 to listen again and 2 to talk to our expert.")
-
 local StandardTicket = {1,2,3}
 local EmergencyTicket = {4,1,2,3}
 local PlanningTicket = {6,3}

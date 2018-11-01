@@ -38,25 +38,25 @@ local EmergencyTicket = {4,1,2,3}
 local PlanningTicket = {6,3}
 local MultiTicket = {1,2,3,5,6}
 
-if dnis == '2625187671' then
+if number == '2625187671' then
 	for i=1,3 do
 		audioselect(StandardTicket[i])
 	end
 
-else if dnis == '2625187672' then
+else if number == '2625187672' then
 	for i=1,4 do
 		audioselect(EmergencyTicket[i])
 	end
 
-else if dnis == '+2625187673' then
+else if number == '+2625187673' then
 	audioselect(5)
 
-else if dnis == '2625187646' then
+else if number == '2625187646' then
 	for i=1,2 do
 		audioselect(PlanningTicket[i])
 	end
 
-else if dnis == '2625187161' then 
+else if number == '2625187161' then 
 	for  i=1,5 do
 		audioselect(MultiTicket[i])
 	end

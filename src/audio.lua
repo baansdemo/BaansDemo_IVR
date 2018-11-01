@@ -5,7 +5,7 @@ local counter = 0
 
 local app_dest = application.get_destination()
 --channel.say(app_dest)
-channel.dial.dnis = app_dest
+channel.dial.dnis
 
 channel.play("asset://sounds/1_FollowingStatementsListenClosely.wav")
 channel.play("asset://sounds/2_TheUtilitiesorLocatorsWillRespond.wav")

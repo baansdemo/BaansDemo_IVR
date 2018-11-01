@@ -1,5 +1,6 @@
 
 local asset = require("summit.asset")
+local counter = 0
 
 channel.play("asset://sounds/1_FollowingStatementsListenClosely.wav")
 channel.play("asset://sounds/2_TheUtilitiesorLocatorsWillRespond.wav")
@@ -20,6 +21,8 @@ function audioselect(numb)
 end
 
 function demofunction()
+
+counter = counter + 1
 
 local dnis = channel.data.dnis
 channel.say(dnis)
@@ -72,7 +75,13 @@ else if digit == '2' then
 --channel.dial('',{destinationType = 'outbound'})
 end
 end
+if counter == 1 do
 demofunction()
+else if counter ~= 1 do
+	channel.hangup()
+end
+end
+
 end
 
 demofunction()

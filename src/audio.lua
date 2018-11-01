@@ -75,7 +75,6 @@ else if digit == '2' then
 end
 end
 end
-channel.hangup()
 end
 
 demofunction()

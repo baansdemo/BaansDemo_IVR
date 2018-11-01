@@ -1,4 +1,4 @@
-
+local application = require("summit.application")
 local asset = require("summit.asset")
 local counter = 0
 

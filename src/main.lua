@@ -5,10 +5,10 @@ channel.answer()
 local dnis = channel.data.dnis
 channel.say(dnis)
 
-local application = require("summit.application")
+--local application = require("summit.application")
 
-local number = application.get_destination()
-channel.say(number)
+-- local number = application.get_destination()
+-- channel.say(number)
 
 -- log.info(app_dest)
 -- local dss = channel.data.dnis

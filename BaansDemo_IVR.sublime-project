@@ -2,7 +2,7 @@
 	"folders":
 	[
 		{
-			"follow_symlinks":true,
+		 	"follow_symlinks":true,
 			"path": "C:\\Summit_Apps\\BaansDemo_IVR"
 		}
 	],

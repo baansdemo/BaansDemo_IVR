@@ -1,28 +1,22 @@
 
 local asset = require("summit.asset")
 
-channel.play("asset://sounds/1_FollowingStatementsListenClosely.wav")
-channel.play("asset://sounds/2_TheUtilitiesorLocatorsWillRespond.wav")
+channel.play({"asset://sounds/1_FollowingStatementsListenClosely.wav","asset://sounds/2_TheUtilitiesorLocatorsWillRespond.wav"})
+--channel.play("asset://sounds/2_TheUtilitiesorLocatorsWillRespond.wav")
 
 function audioselect(numb)
-	if numb == 1 then channel.play("asset://sounds/3_10CalendarDayStatement.wav")
-	else if numb == 2 then channel.play("asset://sounds/4_18InchStatement.wav")
-	else if numb == 3 then channel.play("asset://sounds/5_PrivateLineStatement.wav")
-	else if numb == 4 then channel.say("The member or members in question should respond by telephone as soon as possible or by the start date/time, whichever is later, to indicate when the facilities will be marked. No matter how the start date and time may read on the ticket itself, you will NOT be clear to dig until all member companies have responded in some fashion. In addition, excavating without waiting for member companies to respond and/or locate could result in you being liable for any damages that may occur.",{voice="man"})
-	else if numb == 5 then channel.play("asset://sounds/7_Relocates-LessThan3Days.wav")
-	else if numb == 6 then channel.play("asset://sounds/8_PlanningPurposeStatement.wav")
-	end
-	end
-	end
-	end
-	end
-	end	
+	if numb == 1 then channel.play("asset://sounds/3_10CalendarDayStatement.wav")end
+	else if numb == 2 then channel.play("asset://sounds/4_18InchStatement.wav")end
+	else if numb == 3 then channel.play("asset://sounds/5_PrivateLineStatement.wav")end
+	else if numb == 4 then channel.say("The member or members in question should respond by telephone as soon as possible or by the start date/time, whichever is later, to indicate when the facilities will be marked. No matter how the start date and time may read on the ticket itself, you will NOT be clear to dig until all member companies have responded in some fashion. In addition, excavating without waiting for member companies to respond and/or locate could result in you being liable for any damages that may occur.",{voice="man"})end
+	else if numb == 5 then channel.play("asset://sounds/7_Relocates-LessThan3Days.wav")end
+	else if numb == 6 then channel.play("asset://sounds/8_PlanningPurposeStatement.wav")end	
 end
 
 function demofunction()
 
 local dnis = channel.data.dnis
---channel.play(dnis)
+channel.play(dnis)
 --local dnis= 3176086253
 
 --print(dnis)
@@ -36,36 +30,40 @@ if dnis == '+13176086239' then
 	for i=1,3 do
 		audioselect(StandardTicket[i])
 	end
+end
 
 else if dnis == '+13176086250' then
 	for i=1,4 do
 		audioselect(EmergencyTicket[i])
 	end
+end
 
 else if dnis == '+13176086251' then
 	audioselect(5)
+end
 
 else if dnis == '+13176086252' then
 	for i=1,2 do
 		audioselect(PlanningTicket[i])
 	end
+end
 
 else if dnis == '+13176086253' then 
 	for  i=1,5 do
 		audioselect(MultiTicket[i])
 	end
 end
-end
-end
-end
-end
 
-channel.play("asset://sounds/9_MenuSelectionAudio1.wav")
-channel.play("asset://sounds/10_MenuSelectionAudio2.wav")
+channel.play({"asset://sounds/9_MenuSelectionAudio1.wav","asset://sounds/10_MenuSelectionAudio2.wav"})
+--channel.play("asset://sounds/10_MenuSelectionAudio2.wav")
+
 local digit = channel.gather()
 if digit == '1' then
 	demofunction()
-
+end
+else if digit = nil then
+	demofunction()
+end
 else if digit == '2' then
 
 else
@@ -73,6 +71,4 @@ channel.say("Please press either 1 or 2.",{voice="man"})
 end
 end
 channel.hangup()
-end
-
 demofunction()

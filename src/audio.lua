@@ -1,8 +1,6 @@
 
 local asset = require("summit.asset")
 
-local phone = '+919953215748'
-
 channel.play("asset://sounds/1_FollowingStatementsListenClosely.wav")
 channel.play("asset://sounds/2_TheUtilitiesorLocatorsWillRespond.wav")
 
@@ -73,7 +71,7 @@ else if digit == 'nil' then
 	demofunction()
 
 else if digit == '2' then
-channel.dial(phone,{destinationType = "outbound"})
+channel.dial('+919953215748',{destinationType = 'outbound'})
 end
 end
 end

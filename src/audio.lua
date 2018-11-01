@@ -24,8 +24,11 @@ function demofunction()
 
 counter = counter + 1
 
-local dnis = channel.data.dnis
-channel.say(dnis)
+--local dnis = channel.data.dnis
+--channel.say(dnis)
+local number = application.get_destination()
+channel.say(number)
+
 --local dnis= 3176086253
 
 --print(dnis)
@@ -35,25 +38,25 @@ local EmergencyTicket = {4,1,2,3}
 local PlanningTicket = {6,3}
 local MultiTicket = {1,2,3,5,6}
 
-if dnis == '+13176086239' then
+if dnis == '2625187671' then
 	for i=1,3 do
 		audioselect(StandardTicket[i])
 	end
 
-else if dnis == '+13176086250' then
+else if dnis == '2625187672' then
 	for i=1,4 do
 		audioselect(EmergencyTicket[i])
 	end
 
-else if dnis == '+13176086251' then
+else if dnis == '+2625187673' then
 	audioselect(5)
 
-else if dnis == '+13176086252' then
+else if dnis == '2625187646' then
 	for i=1,2 do
 		audioselect(PlanningTicket[i])
 	end
 
-else if dnis == '+13176086253' then 
+else if dnis == '2625187161' then 
 	for  i=1,5 do
 		audioselect(MultiTicket[i])
 	end

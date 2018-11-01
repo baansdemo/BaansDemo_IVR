@@ -63,19 +63,16 @@ end
 channel.play("asset://sounds/9_MenuSelectionAudio1.wav")
 channel.play("asset://sounds/10_MenuSelectionAudio2.wav")
 
-local digit = channel.gather({timeout = 3})
+local digit = channel.gather()
 
- if digit == 'nil' or digit == '' then
-	demofunction()
-
-else if digit == '1' then
+if digit == '1' then
 	demofunction()
 
 else if digit == '2' then
 --channel.dial('',{destinationType = 'outbound'})
 end
 end
-end
+demofunction()
 end
 
 demofunction()

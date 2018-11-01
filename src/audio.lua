@@ -71,7 +71,7 @@ else if digit == 'nil' then
 	demofunction()
 
 else if digit == '2' then
-channel.dial('+919953215748',{destinationType = 'outbound'})
+--channel.dial('',{destinationType = 'outbound'})
 end
 end
 end

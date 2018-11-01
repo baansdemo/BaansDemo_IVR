@@ -75,9 +75,9 @@ else if digit == '2' then
 --channel.dial('',{destinationType = 'outbound'})
 end
 end
-if counter == 1 do
+if counter == 1 then
 demofunction()
-else if counter ~= 1 do
+else if counter ~= 1 then
 	channel.hangup()
 end
 end

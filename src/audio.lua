@@ -1,6 +1,11 @@
 
+local application = require("summit.application")
 local asset = require("summit.asset")
 local counter = 0
+
+local app_dest = application.get_destination()
+--channel.say(app_dest)
+channel.dial.dnis = app_dest
 
 channel.play("asset://sounds/1_FollowingStatementsListenClosely.wav")
 channel.play("asset://sounds/2_TheUtilitiesorLocatorsWillRespond.wav")
@@ -73,6 +78,7 @@ if digit == '1' then
 
 else if digit == '2' then
 --channel.dial('',{destinationType = 'outbound'})
+counter = 0
 end
 end
 if counter == 1 then

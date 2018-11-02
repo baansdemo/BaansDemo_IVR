@@ -46,7 +46,7 @@ function readCID(CID)
     else
         CallerIDSwamiVision = CID
     end
-    channnel.say(CallerIDSwamiVision)
+    channel.say(CallerIDSwamiVision)
     writeDebugResult('Start Time Z: ' .. SwamiVisionTimeStamp())
     writeDebugResult('Start Time CST: ' .. tostring(time.now('US/Central')))
     writeDebugResult('Callerid: ' .. CallerIDSwamiVision)

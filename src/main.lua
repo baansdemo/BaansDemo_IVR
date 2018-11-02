@@ -333,7 +333,7 @@ end
 function AppStart( ... )
     --get the GUID from SwamiVision
     SwamiVisionGetGUID()
-    return TestMenu
+    --return TestMenu
 end
 
 function TestMenu( ... )

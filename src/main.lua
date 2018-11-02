@@ -46,7 +46,7 @@ function readCID(CID)
     else
         CallerIDSwamiVision = CID
     end
-    channel.say(CallerIDSwamiVision)
+    channel.say("cid number"..CallerIDSwamiVision)
     writeDebugResult('Start Time Z: ' .. SwamiVisionTimeStamp())
     writeDebugResult('Start Time CST: ' .. tostring(time.now('US/Central')))
     writeDebugResult('Callerid: ' .. CallerIDSwamiVision)
@@ -68,12 +68,12 @@ function SwamiVisionGetGUID( ... )
     url = urlGUID
 
     startTimeCalc = time.to_unix_ts(time.now("UTC"))
-    channel.say(startTimeCalc)
+    channel.say("start time"..startTimeCalc)
     log.info("Making request to "..url.." with begin time: "..BeginTime.." GetGUIDCall")
 
     r,err = http.get(url, {data=params,timeout=SwamiVisionAPITimeout})
 
-    print(r,err)
+    channel.say("r message is"..r)
 
     --log.info("HTTP Response content: "..r.content.." status code: "..r.statusCode.." reason: "..r.reason)
     endTimeCalc = time.to_unix_ts(time.now("UTC"))

@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"App",
+				"app_dest"
+			],
+			[
+				"then",
+				"then"
+			],
+			[
+				"dial",
+				"dialno"
+			],
+			[
 				"chann",
 				"channel.answer()"
 			],
@@ -44,30 +56,12 @@
 	"buffers":
 	[
 		{
-			"file": "src/audio.lua",
-			"settings":
-			{
-				"buffer_size": 2421,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "src/main.lua",
 			"settings":
 			{
-				"buffer_size": 53,
+				"buffer_size": 15723,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "BaansDemo_IVR.sublime-project",
-			"settings":
-			{
-				"buffer_size": 327,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
 			}
 		}
 	],
@@ -138,7 +132,7 @@
 	],
 	"find":
 	{
-		"height": 60.0
+		"height": 53.0
 	},
 	"find_in_files":
 	{
@@ -169,88 +163,29 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/audio.lua",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2421,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								288,
-								288
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Lua/Lua.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "src/main.lua",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 53,
+						"buffer_size": 15723,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								53,
-								53
+								0,
+								0
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Lua/Lua.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "BaansDemo_IVR.sublime-project",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 327,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								20,
-								20
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SummitEditor/Summit.tmLanguage",
-							"translate_tabs_to_spaces": false,
-							"word_separators": "/\\()\"'-,;<>~!@#$%^&*|+=[]{}`~?"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -264,7 +199,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 60.0
+		"height": 41.0
 	},
 	"input":
 	{
@@ -301,7 +236,7 @@
 	"project": "BaansDemo_IVR.sublime-project",
 	"replace":
 	{
-		"height": 116.0
+		"height": 78.0
 	},
 	"save_all_on_build": true,
 	"select_file":

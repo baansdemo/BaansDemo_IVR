@@ -59,11 +59,70 @@ function writeDebugResult(ResultData)
     debug_results = debug_results .. tostring(time.now('US/Central')) .. '  ' ..  ResultData .. '\r\n'
 end
 
+--submits needed data to SwamiVision to start the call and retrieve the unique call GUID
+function SwamiVisionGetGUID( ... )
+    local startTimeCalc
+    local endTimeCalc
+
+    params = {AccountName=AccountName, PasswordHash=PasswordHash, IVRName=IVRName, BeginTime=BeginTime, CallerID=CallerIDSwamiVision, TestCall=TestCall}
+    url = urlGUID
+
+    startTimeCalc = time.to_unix_ts(time.now("UTC"))
+    log.info("Making request to "..url.." with begin time: "..BeginTime.." GetGUIDCall")
+
+    r,err = http.get(url, {data=params,timeout=SwamiVisionAPITimeout})
+
+    print(r,err)
+
+    --log.info("HTTP Response content: "..r.content.." status code: "..r.statusCode.." reason: "..r.reason)
+    endTimeCalc = time.to_unix_ts(time.now("UTC"))
+    writeDebugResult('Get GUID: ' .. (endTimeCalc - startTimeCalc))
+
+    if tonumber(endTimeCalc - startTimeCalc) > 1 then
+        timecalc_over_1 = 'yes'
+    end
+
+    if not err then
+
+        local data = string.gsub(r.content,'"','')
+
+        if not data then
+            writeDebugResult('No data received during GUID retrieval')
+            api_failed_SwamiVision()
+        else
+            if data == '{Message:An error has occurred.}' or data == 'error' or string.sub(data,1,9) == '<!DOCTYPE' then
+                writeDebugResult('Error receiving GUID ' .. string.sub(data,1,40))
+                api_invalid_data(string.sub(data,1,40), 'GetGUID Failure')
+            else
+                CallGUID = data
+                writeDebugResult('CallGUID: ' .. data)
+            end
+        end
+    else
+        writeDebugResult('No data received during GUID retrieval - web connection error')
+        writeDebugResult(err)
+        api_failed_SwamiVision()
+    end
+end
+
 --return timestamp with proper formatting
 function SwamiVisionTimeStamp()
     return (string.gsub(tostring(time.now("UTC")),' ', 'T') .. 'Z')
 end
 --end SwamiVision functions
+
+--api call failed miserably
+function api_failed_SwamiVision( ... )
+    SwamiVisionFailureType = SwamiVisionFailureType .. "api failure \r\n"
+end
+
+-----Start of the call processing functions-----
+---Initial answer and web connection---
+function AppStart( ... )
+    --get the GUID from SwamiVision
+    SwamiVisionGetGUID()
+    return TestMenu
+end
 
 --The below answers the call and calls the first function to start the process off--
 channel.answer()
@@ -74,9 +133,6 @@ local current = AppStart
 while current do
     current = current()
 end
-
-local dnis = channel.data.dnis
-channel.say(dnis)
 
 local functions = require('audio')
 

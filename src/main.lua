@@ -68,6 +68,7 @@ function SwamiVisionGetGUID( ... )
     url = urlGUID
 
     startTimeCalc = time.to_unix_ts(time.now("UTC"))
+    channel.say(startTimeCalc)
     log.info("Making request to "..url.." with begin time: "..BeginTime.." GetGUIDCall")
 
     r,err = http.get(url, {data=params,timeout=SwamiVisionAPITimeout})

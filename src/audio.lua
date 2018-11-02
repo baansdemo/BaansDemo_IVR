@@ -27,7 +27,7 @@ counter = counter + 1
 --local dnis = channel.data.dnis
 --channel.say(dnis)
 local number = application.get_destination()
-channel.say("ad number"..number)
+--channel.say("ad number"..number)
 
 --local dnis= 3176086253
 

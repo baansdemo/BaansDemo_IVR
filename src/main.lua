@@ -312,8 +312,6 @@ end
 --end SwamiVision functions
 
 
-
-
 --Example of an application start to finish:
 
 -----Start of the call processing functions-----
@@ -330,7 +328,7 @@ function TestMenu( ... )
         if MyTestMenu == "1" then
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' ' ..  MyTestMenu .. ' ' .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())
-            return NextFunction1
+            return demofunction()
         elseif MyTestMenu == '2' then
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. MyTestMenu .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())

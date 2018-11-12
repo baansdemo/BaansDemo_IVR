@@ -319,28 +319,29 @@ end
 function AppStart( ... )
     --get the GUID from SwamiVision
     SwamiVisionGetGUID()
-    return TestMenu
+    --return TestMenu
 end
 
 function TestMenu( ... )
     SwamiVisionAddCallAction('123123123-BB7E-440B-9ECF-2777CFF4FF3F', SwamiVisionTimeStamp())
-    local MyTestMenu = channel.gather({maxDigits=1, attempts=1, timeout=3, regex='[12]'})--,invalidPlay=audio_constants.blank_audio})--, play=audio_constants.TestMenuAudio
+    local MyTestMenu = channel.gather({play=menuAudio, maxDigits=1, attempts=1, timeout=3, regex='[12]'})--,invalidPlay=audio_constants.blank_audio})--, play=audio_constants.TestMenuAudio
         if MyTestMenu == "1" then
+        	demofunction()
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' ' ..  MyTestMenu .. ' ' .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())
-            return NextFunction1
+            --return NextFunction1
         elseif MyTestMenu == '2' then
+   			counter = 0
+			--channel.dial('',{destinationType = 'outbound'})
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. MyTestMenu .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())
-            return NextFunction2
+            --return NextFunction2
         else
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' Caller did not make a selection' .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, ' Caller did not make a selection', SwamiVisionTimeStamp())
             return FailedCallTroubleFunction
         end
 end
-
-
 
 function audioselect(numb)
 	if numb == 1 then
@@ -402,15 +403,17 @@ local menuAudio = {
                 'asset://sounds/10_MenuSelectionAudio2.wav'
 }
 
-local digit = channel.gather({play=menuAudio, maxDigits=1, attempts=1, timeout=3, regex='[12]'})
+--local digit = channel.gather({play=menuAudio, maxDigits=1, attempts=1, timeout=3, regex='[12]'})
 
-if digit == '1' then
-	demofunction()
+return TestMenu
+-- if digit == '1' then
+-- 	demofunction()
 
-elseif digit == '2' then
-counter = 0
---channel.dial('',{destinationType = 'outbound'})
-channel.hangup()
+-- elseif digit == '2' then
+-- counter = 0
+-- --channel.dial('',{destinationType = 'outbound'})
+-- channel.hangup()
+-- end
 end
 
 if counter == 1 then
@@ -419,7 +422,7 @@ elseif counter ~= 1 then
 	channel.hangup()
 end
 
-end --demofunction() end
+--end --demofunction() end
 
 --The below answers the call and calls the first function to start the process off--
 channel.answer()

@@ -67,7 +67,7 @@
 			"file": "src/main.lua",
 			"settings":
 			{
-				"buffer_size": 5703,
+				"buffer_size": 15444,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -76,7 +76,7 @@
 			"file": "src/audio.lua",
 			"settings":
 			{
-				"buffer_size": 2443,
+				"buffer_size": 2445,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -167,7 +167,7 @@
 	],
 	"find":
 	{
-		"height": 53.0
+		"height": 51.0
 	},
 	"find_in_files":
 	{
@@ -181,6 +181,23 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"CallActionGUID",
+			"SwamiVisionHangup",
+			"SwamiVisionCloseCall",
+			"MemberToMain ",
+			"member ",
+			"SwamiVisionCloseCallAction",
+			"IVRName",
+			"api_invalid_data",
+			"api returned invalid data",
+			"menu",
+			"email",
+			"MyTestMenu",
+			"TestMenu",
+			"guid",
+			"SwamiVisionCloseCallAction",
+			"NextFunction1",
+			"TestMenu",
 			"Channel.say",
 			"api_failed_SwamiVision",
 			"api_failed_SwamiVision()",
@@ -231,15 +248,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5703,
+						"buffer_size": 15444,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4908,
-								4908
+								14328,
+								14328
 							]
 						],
 						"settings":
@@ -247,7 +264,7 @@
 							"syntax": "Packages/Lua/Lua.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 2799.0,
+						"translation.y": 9993.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -259,15 +276,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2443,
+						"buffer_size": 2445,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1538,
-								1538
+								248,
+								248
 							]
 						],
 						"settings":
@@ -276,7 +293,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 623.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -294,8 +311,8 @@
 						"selection":
 						[
 							[
-								8436,
-								8436
+								0,
+								15166
 							]
 						],
 						"settings":
@@ -305,7 +322,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 6144.0,
+						"translation.y": 10559.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -344,7 +361,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 41.0
+		"height": 39.0
 	},
 	"input":
 	{
@@ -381,7 +398,7 @@
 	"project": "BaansDemo_IVR.sublime-project",
 	"replace":
 	{
-		"height": 78.0
+		"height": 74.0
 	},
 	"save_all_on_build": true,
 	"select_file":

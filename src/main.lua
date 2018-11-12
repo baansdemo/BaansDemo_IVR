@@ -4,7 +4,7 @@
 --- These GUIDs are provided separately from this example for each specific application that is developed
 --- Please note that the close call function is done in the call finalization. This is done to insure it gets closed.
 
---local audio_constants = require('audio_constants')
+local audio_constants = require('audio_constants')
 local asset = require('summit.asset')
 local speech = require('summit.speech')
 local sound = require('summit.sound')
@@ -38,37 +38,14 @@ local TestCall = '1' -- set to 1 to mark calls as tests
 --End SwamiVision Variables
 
 
---Generic Functions
-function FailedCallTroubleFunction( ... )
-   channel.play('asset://InvalidInputGoodbye.wav')
-   channel.hangup()
-end
-
---End Generic Functions
-
 --call finalization functions
 function finalizeCall()
-    local successfulSubject = 'Successful IVR Call '
-    local success_to_email = 'nikhilsaini5748@gmail.com'--'caytonr@voipswami.com'
-    --close call in SwamiVision if not done already
-    if MemberToMain == 'no' then
-        SwamiVisionCloseCall(SwamiVisionHangup, SwamiVisionTimeStamp())
-    end
-    if timecalc_over_1 == 'yes' then
-        successfulSubject = '*****' .. successfulSubject
-    end
+    --close call in SwamiVision
+    SwamiVisionCloseCall(SwamiVisionHangup, SwamiVisionTimeStamp())
 
     --email if there is any sort of api failure
     if SwamiVisionFailureType == '' then
         --do nothing the call was a success
-        --actually email results with API performance over 1 second
-        if timecalc_over_1 == 'yes' then
-            for to_address in string.gmatch(success_to_email,"([^,]+)") do
-                email.send(success_to_email, from_email, successfulSubject .. AccountName .. ' ' .. IVRName, debug_results)
-            end
-        else
-            --do nothing
-        end
     else
         --email us the error(s)
         for to_address in string.gmatch(to_email,"([^,]+)") do
@@ -81,6 +58,15 @@ end
 cleanup.register(finalizeCall, 'finalizeCall', false)
 
 --end call finalization
+
+
+--Generic Functions
+function FailedCallTroubleFunction( ... )
+   channel.play('asset://InvalidInputGoodbye.wav')
+   channel.hangup()
+end
+--End Generic Functions
+
 
 --SwamiVision specific functions
 --saves the caller ID to the correct variable for SwamiVision
@@ -333,12 +319,12 @@ end
 function AppStart( ... )
     --get the GUID from SwamiVision
     SwamiVisionGetGUID()
-    --return TestMenu
+    return TestMenu
 end
 
 function TestMenu( ... )
     SwamiVisionAddCallAction('123123123-BB7E-440B-9ECF-2777CFF4FF3F', SwamiVisionTimeStamp())
-    local MyTestMenu = channel.gather({maxDigits=1, attempts=1, timeout=3})--, play=audio_constants.TestMenuAudio, regex='[12]', invalidPlay=audio_constants.blank_audio
+    local MyTestMenu = channel.gather({maxDigits=1, attempts=1, timeout=3, play=audio_constants.TestMenuAudio, regex='[12]', invalidPlay=audio_constants.blank_audio})
         if MyTestMenu == "1" then
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' ' ..  MyTestMenu .. ' ' .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())

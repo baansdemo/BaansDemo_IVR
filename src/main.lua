@@ -328,7 +328,7 @@ function TestMenu( ... )
         if MyTestMenu == "1" then
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' ' ..  MyTestMenu .. ' ' .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())
-            return demofunction()
+            return NextFunction1
         elseif MyTestMenu == '2' then
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. MyTestMenu .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())
@@ -340,24 +340,7 @@ function TestMenu( ... )
         end
 end
 
---The below answers the call and calls the first function to start the process off--
 
-channel.answer()
-
-readCID(channel.data.ani)
-
-local current = AppStart
-while current do
-    current = current()
-end
-
---local functions = require('audio')
-
-channel.hangup()
---end of script--
-
-channel.play("asset://sounds/1_FollowingStatementsListenClosely.wav")
-channel.play("asset://sounds/2_TheUtilitiesorLocatorsWillRespond.wav")
 
 function audioselect(numb)
 	if numb == 1 then
@@ -376,6 +359,9 @@ function audioselect(numb)
 end
 
 function demofunction()
+
+channel.play("asset://sounds/1_FollowingStatementsListenClosely.wav")
+channel.play("asset://sounds/2_TheUtilitiesorLocatorsWillRespond.wav")
 
 counter = counter + 1
 
@@ -435,4 +421,17 @@ end
 
 end --demofunction() end
 
+--The below answers the call and calls the first function to start the process off--
+channel.answer()
+
+readCID(channel.data.ani)
+
+local current = AppStart
+while current do
+    current = current()
+end
+
 demofunction()
+
+channel.hangup()
+--end of script--

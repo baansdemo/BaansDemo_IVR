@@ -4,7 +4,7 @@
 --- These GUIDs are provided separately from this example for each specific application that is developed
 --- Please note that the close call function is done in the call finalization. This is done to insure it gets closed.
 
---local audio_constants = require('audio_constants')
+local audio_constants = require('audio_constants')
 local asset = require('summit.asset')
 local speech = require('summit.speech')
 local sound = require('summit.sound')
@@ -324,7 +324,7 @@ end
 
 function TestMenu( ... )
     SwamiVisionAddCallAction(CallGUID, SwamiVisionTimeStamp())
-    local MyTestMenu = channel.gather({maxDigits=1, attempts=1, timeout=3, regex='[12]'})--,invalidPlay=audio_constants.blank_audio})--, play=audio_constants.TestMenuAudio
+    local MyTestMenu = channel.gather({maxDigits=1, attempts=1, timeout=3, play=audio_constants.TestMenuAudio, regex='[12]',invalidPlay=audio_constants.blank_audio})--, play=audio_constants.TestMenuAudio
         if MyTestMenu == "1" then
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' ' ..  MyTestMenu .. ' ' .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())

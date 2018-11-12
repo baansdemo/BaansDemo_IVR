@@ -323,7 +323,7 @@ function AppStart( ... )
 end
 
 function TestMenu( ... )
-    SwamiVisionAddCallAction(CallGUID, SwamiVisionTimeStamp())
+    SwamiVisionAddCallAction('123123123-BB7E-440B-9ECF-2777CFF4FF3F', SwamiVisionTimeStamp())
     local MyTestMenu = channel.gather({maxDigits=1, attempts=1, timeout=3, play=audio_constants.TestMenuAudio, regex='[12]',invalidPlay=audio_constants.blank_audio})--, play=audio_constants.TestMenuAudio
         if MyTestMenu == "1" then
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' ' ..  MyTestMenu .. ' ' .. SwamiVisionTimeStamp())

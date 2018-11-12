@@ -25,14 +25,7 @@ function demofunction()
 
 counter = counter + 1
 
---local dnis = channel.data.dnis
---channel.say(dnis)
 local number = application.get_destination()
---channel.say("ad number"..number)
-
---local dnis= 3176086253
-
---print(dnis)
 
 local StandardTicket = {1,2,3}
 local EmergencyTicket = {4,1,2,3}

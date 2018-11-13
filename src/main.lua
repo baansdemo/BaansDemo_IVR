@@ -4,7 +4,7 @@
 --- These GUIDs are provided separately from this example for each specific application that is developed
 --- Please note that the close call function is done in the call finalization. This is done to insure it gets closed.
 
---local audio_constants = require('audio_constants')
+local audio_constants = require('audio_constants')
 local asset = require('summit.asset')
 local speech = require('summit.speech')
 local sound = require('summit.sound')
@@ -319,18 +319,18 @@ end
 function AppStart( ... )
     --get the GUID from SwamiVision
     SwamiVisionGetGUID()
-    --return TestMenu
+    return demofunction
 end
 
 function TestMenu( ... )
 
-local menuAudio = {
-                'asset://sounds/9_MenuSelectionAudio1.wav',
-                'asset://sounds/10_MenuSelectionAudio2.wav'
-}
+-- local menuAudio = {
+--                 'asset://sounds/9_MenuSelectionAudio1.wav',
+--                 'asset://sounds/10_MenuSelectionAudio2.wav'
+--}
 
-    SwamiVisionAddCallAction('123123123-BB7E-440B-9ECF-2777CFF4FF3F', SwamiVisionTimeStamp())
-    local MyTestMenu = channel.gather({play=menuAudio, maxDigits=1, attempts=1, timeout=3, regex='[12]'})--,invalidPlay=audio_constants.blank_audio})--, play=audio_constants.TestMenuAudio
+    SwamiVisionAddCallAction('12199520-DF34-471A-ADFC-4B1EDC0638D5', SwamiVisionTimeStamp())
+    local MyTestMenu = channel.gather({play=audio_constants.TestMenuAudio, maxDigits=1, attempts=1, timeout=3, regex='[12]', invalidPlay=audio_constants.blank_audio})--, play=audio_constants.TestMenuAudio
         if MyTestMenu == "1" then
         	demofunction()
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' ' ..  MyTestMenu .. ' ' .. SwamiVisionTimeStamp())
@@ -419,7 +419,7 @@ end
 
 --local digit = channel.gather({play=menuAudio, maxDigits=1, attempts=1, timeout=3, regex='[12]'})
 
-return TestMenu()
+return TestMenu
 -- if digit == '1' then
 -- 	demofunction()
 
@@ -449,7 +449,7 @@ while current do
     current = current()
 end
 
-demofunction()
+--demofunction()
 
 channel.hangup()
 --end of script--

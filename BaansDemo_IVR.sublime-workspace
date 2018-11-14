@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"test",
+				"TestMenu"
+			],
+			[
 				"stat",
 				"startTimeCalc"
 			],
@@ -67,25 +71,17 @@
 			"file": "src/main.lua",
 			"settings":
 			{
-				"buffer_size": 15444,
+				"buffer_size": 17529,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "src/audio.lua",
+			"file": "src/audio_constants.lua",
 			"settings":
 			{
-				"buffer_size": 2445,
+				"buffer_size": 246,
 				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "---\tNotes\n--- in the below example you see a line \"SwamiVisionAddCallAction('123123123-BB7E-440B-9ECF-2777CFF4FF3F', SwamiVisionTimeStamp())\"\n--- The GUID(123123123-BB7E-440B-9ECF-2777CFF4FF3F) is unique for each data point collected\n--- These GUIDs are provided separately from this example for each specific application that is developed\n--- Please note that the close call function is done in the call finalization. This is done to insure it gets closed.\n\n--local audio_constants = require('audio_constants')\nlocal asset = require('summit.asset')\nlocal speech = require('summit.speech')\nlocal sound = require('summit.sound')\nlocal time = require('summit.time')\nlocal http = require('summit.http')\nlocal cleanup  = require ('summit.cleanup')\nlocal email = require('summit.email')\nlocal log  = require('summit.log')\n\n--SwamiVision variables\nlocal SwamiVisionAPITimeout = 5\nlocal CallGUID = nil\nlocal CallerIDSwamiVision = '5556667777'\nlocal urlGUID = 'https://telescopeapi.voipswami.com/api/CustomerLogin'\nlocal urlCreateAction = 'https://telescopeapi.voipswami.com/api/CreateCallAction'\nlocal urlCloseAction = 'https://telescopeapi.voipswami.com/api/CloseCallAction'\nlocal urlClose =  'https://telescopeapi.voipswami.com/api/CloseCall'\nlocal AccountName = 'Diggers Hotline Inc.'\nlocal PasswordHash = '43d21ca4bc5201cd80da1c0b74b735a3'\nlocal IVRName = 'After Call Information IVR'\nlocal BeginTime = string.gsub(tostring(time.now(\"UTC\")),' ', 'T') .. 'Z'\nlocal SwamiVisionHangup = '1' --seed hangup as yes so that anytime a call ends before we say it's not a hangup, it is recorded as a hangup\nlocal SwamiVisionFailureType = ''\nlocal CallActionGUID = 'reset'\nlocal to_email = 'nikhilsaini5748@gmail.com'--'caytonr@voipswami.com,petersone@voipswami.com' --recipient email addresses separated by comma if multiple\nlocal from_email = 'shoretelplatform@voipswami.com' --senders email address. MUST be in allowed senders list in summit dashboard\nlocal subject_email = 'SwamiVision API ERROR - ' --email subject\nlocal debug_results = '' --seed debug results to send with any api error emails\nlocal timecalc_over_1 = ''\nlocal TestCall = '1' -- set to 1 to mark calls as tests\n--End SwamiVision Variables\n\n\n--Generic Functions\nfunction FailedCallTroubleFunction( ... )\n   channel.play('asset://InvalidInputGoodbye.wav')\n   channel.hangup()\nend\n\n--End Generic Functions\n\n--call finalization functions\nfunction finalizeCall()\n    local successfulSubject = 'Successful IVR Call '\n    local success_to_email = 'nikhilsaini5748@gmail.com'--'caytonr@voipswami.com'\n    --close call in SwamiVision if not done already\n    if MemberToMain == 'no' then\n        SwamiVisionCloseCall(SwamiVisionHangup, SwamiVisionTimeStamp())\n    end\n    if timecalc_over_1 == 'yes' then\n        successfulSubject = '*****' .. successfulSubject\n    end\n\n    --email if there is any sort of api failure\n    if SwamiVisionFailureType == '' then\n        --do nothing the call was a success\n        --actually email results with API performance over 1 second\n        if timecalc_over_1 == 'yes' then\n            for to_address in string.gmatch(success_to_email,\"([^,]+)\") do\n                email.send(success_to_email, from_email, successfulSubject .. AccountName .. ' ' .. IVRName, debug_results)\n            end\n        else\n            --do nothing\n        end\n    else\n        --email us the error(s)\n        for to_address in string.gmatch(to_email,\"([^,]+)\") do\n            email.send(to_address, from_email, subject_email ..' ' .. AccountName .. ' ' .. IVRName, SwamiVisionFailureType .. '\\r\\n' .. debug_results)\n        end\n    end\nend\n\n--call cleanup to process data received even if call disconnects early or there is a script issue\ncleanup.register(finalizeCall, 'finalizeCall', false)\n\n--end call finalization\n\n--SwamiVision specific functions\n--saves the caller ID to the correct variable for SwamiVision\nfunction readCID(CID)\n    --detect if ANI received is blank or nil and writes appropriate value to results\n    if CID == nil or CID == '' then\n        CallerIDSwamiVision = 'Not Provided' .. '\\r'\n    else\n        CallerIDSwamiVision = CID\n    end\n    writeDebugResult('Start Time Z: ' .. SwamiVisionTimeStamp())\n    writeDebugResult('Start Time CST: ' .. tostring(time.now('US/Central')))\n    writeDebugResult('Callerid: ' .. CallerIDSwamiVision)\n    --writeDebugResult('-----------------------------------------------------------------')\n    writeDebugResult('-------------------START CALL ACTIONS----------------------------')\nend\n\n--writes specified results to the debug data for email\nfunction writeDebugResult(ResultData)\n    debug_results = debug_results .. tostring(time.now('US/Central')) .. '  ' ..  ResultData .. '\\r\\n'\nend\n\n--submits needed data to SwamiVision to start the call and retrieve the unique call GUID\nfunction SwamiVisionGetGUID( ... )\n    local startTimeCalc\n    local endTimeCalc\n\n    params = {AccountName=AccountName, PasswordHash=PasswordHash, IVRName=IVRName, BeginTime=BeginTime, CallerID=CallerIDSwamiVision, TestCall=TestCall}\n    url = urlGUID\n\n    startTimeCalc = time.to_unix_ts(time.now(\"UTC\"))\n    log.info(\"Making request to \"..url..\" with begin time: \"..BeginTime..\" GetGUIDCall\")\n\n    r,err = http.get(url, {data=params,timeout=SwamiVisionAPITimeout})\n\n    --log.info(\"HTTP Response content: \"..r.content..\" status code: \"..r.statusCode..\" reason: \"..r.reason)\n    endTimeCalc = time.to_unix_ts(time.now(\"UTC\"))\n    writeDebugResult('Get GUID: ' .. (endTimeCalc - startTimeCalc))\n\n    if tonumber(endTimeCalc - startTimeCalc) > 1 then\n        timecalc_over_1 = 'yes'\n    end\n\n    if not err then\n\n        local data = string.gsub(r.content,'\"','')\n\n        if not data then\n            writeDebugResult('No data received during GUID retrieval')\n            api_failed_SwamiVision()\n        else\n            if data == '{Message:An error has occurred.}' or data == 'error' or string.sub(data,1,9) == '<!DOCTYPE' then\n                writeDebugResult('Error receiving GUID ' .. string.sub(data,1,40))\n                api_invalid_data(string.sub(data,1,40), 'GetGUID Failure')\n            else\n                CallGUID = data\n                writeDebugResult('CallGUID: ' .. data)\n            end\n        end\n    else\n        writeDebugResult('No data received during GUID retrieval - web connection error')\n        writeDebugResult(err)\n        api_failed_SwamiVision()\n    end\nend\n\n--submits a call action to SwamiVision\nfunction SwamiVisionAddCallAction( PromptGUID, BeginTime )\n    CallActionGUID = 'reset'\n    if CallGUID ~= nil then\n        writeDebugResult('-----------------------------------------------------------------')\n        local startTimeCalc\n        local endTimeCalc\n        params = {CallGUID=CallGUID, BeginTime=BeginTime, PromptGUID=PromptGUID}\n        url = urlCreateAction\n\n        startTimeCalc = time.to_unix_ts(time.now(\"UTC\"))\n        log.info(\"Making request to \"..url..\" with begin time: \"..BeginTime..\" and prompt GUID:\"..PromptGUID)\n\n        r,err = http.get(url, {data=params,timeout=SwamiVisionAPITimeout})\n\n        --log.info(\"HTTPResponse content: \"..r.content..\" status code: \"..r.statusCode..\" reason: \"..r.reason)\n        endTimeCalc = time.to_unix_ts(time.now(\"UTC\"))\n        writeDebugResult('Add Action: ' .. (endTimeCalc - startTimeCalc))\n\n        if tonumber(endTimeCalc - startTimeCalc) > 1 then\n            timecalc_over_1 = 'yes'\n        end\n\n        if not err then\n\n            local data = string.gsub(r.content,'\"','')\n\n            if not data then\n                writeDebugResult('No data received during Create Action' .. CallGUID .. '   ' .. PromptGUID)\n                api_failed_SwamiVision()\n            else\n                if data == '{Message:An error has occurred.}' or data == 'error' or string.sub(data,1,9) == '<!DOCTYPE' or data == '' then\n                    writeDebugResult('Error receiving Action GUID ' .. string.sub(data,1,40))\n                    writeDebugResult(PromptGUID .. ' ' .. PromptGUID .. ' ' .. PromptGUID)\n                    api_invalid_data(string.sub(data,1,40), 'GetActionGUID Failure')\n                else\n                    CallActionGUID = data\n                    writeDebugResult('CallActionGUID: ' .. data)\n                end\n            end\n        else\n            writeDebugResult('No data received during Create Action - web connection failure ' .. CallGUID .. '   ' .. PromptGUID)\n            writeDebugResult(err)\n            api_failed_SwamiVision()\n        end\n    else\n        --do nothing because the call GUID is invalid\n    end\nend\n\n--submits a call action to SwamiVision\nfunction SwamiVisionCloseCallAction( TSCallActionGUID,ActionValue,TimeStamp )\n    if CallGUID ~= nil and TSCallActionGUID ~= 'reset' then\n        local startTimeCalc\n        local endTimeCalc\n        params = {CallActionGUID=TSCallActionGUID, ActionValue=ActionValue, EndTime=TimeStamp}\n        url = urlCloseAction\n\n        startTimeCalc = time.to_unix_ts(time.now(\"UTC\"))\n        log.info(\"Making request to \"..url..\" with begin time: \"..TimeStamp..\" and call action GUID:\"..TSCallActionGUID)\n\n        r,err = http.get(url, {data=params,timeout=SwamiVisionAPITimeout})\n\n        --log.info(\"HTTPResponse content: \"..r.content..\" status code: \"..r.statusCode..\" reason: \"..r.reason)\n        endTimeCalc = time.to_unix_ts(time.now(\"UTC\"))\n        writeDebugResult('Close action: ' .. (endTimeCalc - startTimeCalc))\n\n        if tonumber(endTimeCalc - startTimeCalc) > 1 then\n            timecalc_over_1 = 'yes'\n        end\n\n        if not err then\n\n            local data = string.gsub(r.content,'\"','')\n\n            if not data then\n                writeDebugResult('No data received during close call action ' .. CallGUID .. '   ' .. TSCallActionGUID)\n                api_failed_SwamiVision()\n            else\n                if data == 'ok' then\n                --channel.say(data)\n                else\n                    --data received is in error\n                    writeDebugResult('Error writing call action Close to API for PromptGUID: ' .. TSCallActionGUID .. ' ' .. ActionValue .. ' ' .. TimeStamp)\n                    api_invalid_data(string.sub(data,1,40), 'CallActionGUID: ' .. TSCallActionGUID)\n                end\n            end\n        else\n            writeDebugResult('No data received during close call action - web connection failure ' .. CallGUID .. '   ' .. TSCallActionGUID)\n            writeDebugResult(err)\n            api_failed_SwamiVision()\n        end\n    else\n        --do nothing because the call GUID or action GUID is invalid so we can't write data\n    end\n    --reset the call action GUID so it doesn't try to close action again if a get GUID failure\n    CallActionGUID = 'reset'\nend\n\n\n--submits close call action to SwamiVision\nfunction SwamiVisionCloseCall( Hangup,TimeStamp )\n    if CallGUID ~= nil then\n        writeDebugResult('-----------------------------------------------------------------')\n        local startTimeCalc\n        local endTimeCalc\n        local closeRetryCount = 0\n        params = {CallGUID=CallGUID, PasswordHash=PasswordHash, Hangup=Hangup, EndTime=TimeStamp}\n        url = urlClose\n\n        --try closing the call three times since it wont affect the callers perception of flow\n        while closeRetryCount < 3 do\n            startTimeCalc = time.to_unix_ts(time.now(\"UTC\"))\n            log.info(\"Making request to \"..url..\" with begin time: \"..TimeStamp..\" Close Call Action\")\n\n            r,err = http.get(url, {data=params,timeout=30})\n\n            --log.info(\"HTTPResponse content: \"..r.content..\" status code: \"..r.statusCode..\" reason: \"..r.reason)\n            endTimeCalc = time.to_unix_ts(time.now(\"UTC\"))\n            writeDebugResult('Close call: ' ..  (endTimeCalc - startTimeCalc))\n\n            if tonumber(endTimeCalc - startTimeCalc) > 1 then\n                timecalc_over_1 = 'yes'\n            end\n\n            if not err then\n                break\n            else\n                closeRetryCount = closeRetryCount + 1\n            end\n        end\n\n        if not err then\n\n            local data = string.gsub(r.content,'\"','')\n\n            if not data then\n                writeDebugResult('No data received during close call action after ' .. (closeRetryCount + 1) .. ' tries')\n                api_failed_SwamiVision()\n            else\n                if data == 'ok' then\n                    --do nothing, call closed successfully\n                    writeDebugResult('Number of close call attempts: ' .. (closeRetryCount + 1))\n                else\n                    --{Message:An error has occurred.}' or data == 'error'\n                    writeDebugResult('Error closing call ' .. string.sub(data,1,40))\n                    api_invalid_data(string.sub(data,1,40),'Closing Call')\n                end\n            end\n        else\n            writeDebugResult('No data received during close call action - web connection error')\n            writeDebugResult('Number of close tries' .. (closeRetryCount + 1))\n            writeDebugResult(err)\n            api_failed_SwamiVision()\n        end\n    else\n        --do nothing because the call GUID is invalid and closing the call is pointless\n    end\nend\n\n--api call failed miserably\nfunction api_failed_SwamiVision( ... )\n    SwamiVisionFailureType = SwamiVisionFailureType .. \"api failure \\r\\n\"\nend\n\n--api call worked but we sent something over we shouldn't have\nfunction api_invalid_data( data, additionalData )\n    SwamiVisionFailureType = SwamiVisionFailureType .. 'api returned invalid data. ' .. data .. ' ' .. additionalData .. '\\r\\n'\nend\n\n--return timestamp with proper formatting\nfunction SwamiVisionTimeStamp()\n    return (string.gsub(tostring(time.now(\"UTC\")),' ', 'T') .. 'Z')\nend\n--end SwamiVision functions\n\n\n\n\n--Example of an application start to finish:\n\n-----Start of the call processing functions-----\n---Initial answer and web connection---\nfunction AppStart( ... )\n    --get the GUID from SwamiVision\n    SwamiVisionGetGUID()\n    return TestMenu\nend\n\nfunction TestMenu( ... )\n    SwamiVisionAddCallAction('123123123-BB7E-440B-9ECF-2777CFF4FF3F', SwamiVisionTimeStamp())\n    local MyTestMenu = channel.gather({maxDigits=1, attempts=1, timeout=3})--, play=audio_constants.TestMenuAudio, regex='[12]', invalidPlay=audio_constants.blank_audio\n        if MyTestMenu == \"1\" then\n            writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' ' ..  MyTestMenu .. ' ' .. SwamiVisionTimeStamp())\n            SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())\n            return NextFunction1\n        elseif MyTestMenu == '2' then\n            writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. MyTestMenu .. SwamiVisionTimeStamp())\n            SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())\n            return NextFunction2\n        else\n            writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' Caller did not make a selection' .. SwamiVisionTimeStamp())\n            SwamiVisionCloseCallAction(CallActionGUID, ' Caller did not make a selection', SwamiVisionTimeStamp())\n            return FailedCallTroubleFunction\n        end\nend\n\n\n\n--The below answers the call and calls the first function to start the process off--\nchannel.answer()\n\nreadCID(channel.data.ani)\n\nlocal current = AppStart\nwhile current do\n    current = current()\nend\n\nlocal dnis = channel.data.dnis\nchannel.say(dnis)\n\nlocal functions = require('audio')\n\n\nchannel.hangup()\n--end of script--",
-			"settings":
-			{
-				"buffer_size": 15489,
 				"line_ending": "Windows"
 			}
 		},
@@ -167,7 +163,7 @@
 	],
 	"find":
 	{
-		"height": 51.0
+		"height": 48.0
 	},
 	"find_in_files":
 	{
@@ -181,6 +177,19 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"12199520-DF34-471A-ADFC-4B1EDC0638D5",
+			"hangup",
+			"NextFunction2",
+			"FailedCallTroubleFunction",
+			"PromptGUID",
+			"SwamiVisionAddCallAction",
+			"audio_constants",
+			"CallGUID",
+			"finalizeCall",
+			"SwamiVisionGetGUID",
+			"PromptGUID",
+			"SwamiVisionAddCallAction",
+			"SwamiVisionHangup",
 			"CallActionGUID",
 			"SwamiVisionHangup",
 			"SwamiVisionCloseCall",
@@ -248,15 +257,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 15444,
+						"buffer_size": 17529,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								14328,
-								14328
+								16202,
+								16202
 							]
 						],
 						"settings":
@@ -264,7 +273,7 @@
 							"syntax": "Packages/Lua/Lua.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 9993.0,
+						"translation.y": 10026.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -272,19 +281,19 @@
 				},
 				{
 					"buffer": 1,
-					"file": "src/audio.lua",
+					"file": "src/audio_constants.lua",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2445,
+						"buffer_size": 246,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								248,
-								248
+								0,
+								0
 							]
 						],
 						"settings":
@@ -301,35 +310,6 @@
 				},
 				{
 					"buffer": 2,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 15489,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								15166
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Lua/Lua.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 10559.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
 					"file": "BaansDemo_IVR.sublime-project",
 					"semi_transient": false,
 					"settings":
@@ -353,7 +333,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -361,11 +341,11 @@
 	],
 	"incremental_find":
 	{
-		"height": 39.0
+		"height": 36.0
 	},
 	"input":
 	{
-		"height": 0.0
+		"height": 48.0
 	},
 	"layout":
 	{
@@ -398,7 +378,7 @@
 	"project": "BaansDemo_IVR.sublime-project",
 	"replace":
 	{
-		"height": 74.0
+		"height": 68.0
 	},
 	"save_all_on_build": true,
 	"select_file":

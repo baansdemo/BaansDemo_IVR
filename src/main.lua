@@ -342,6 +342,8 @@ function TestMenu( ... )
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. MyTestMenu .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())
             --return NextFunction2
+		elseif MyTestMenu == '' and counter == 1 then
+			demofunction()
         else
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' Caller did not make a selection' .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, ' Caller did not make a selection', SwamiVisionTimeStamp())
@@ -349,11 +351,11 @@ function TestMenu( ... )
         end
 
 
-if counter == 1 then
-demofunction()
-elseif counter ~= 1 then
-	channel.hangup()
-end
+-- if counter == 1 then
+-- demofunction()
+-- elseif counter ~= 1 then
+-- 	channel.hangup()
+-- end
 
 end
 
@@ -375,10 +377,11 @@ end
 
 function demofunction()
 
-channel.play("asset://sounds/1_FollowingStatementsListenClosely.wav")
-channel.play("asset://sounds/2_TheUtilitiesorLocatorsWillRespond.wav")
-
 counter = counter + 1
+if counter == 1 then
+	channel.play("asset://sounds/1_FollowingStatementsListenClosely.wav")
+	channel.play("asset://sounds/2_TheUtilitiesorLocatorsWillRespond.wav")
+end
 
 local number = application.get_destination()
 

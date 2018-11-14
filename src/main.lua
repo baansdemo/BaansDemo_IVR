@@ -337,7 +337,7 @@ function TestMenu( ... )
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. MyTestMenu .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())
             return NextFunction2
-		elseif MyTestMenu == nil and counter == 1 then
+		elseif MyTestMenu == 'invalid' and counter == 1 then
 			demofunction()
         else
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' Caller did not make a selection' .. SwamiVisionTimeStamp())

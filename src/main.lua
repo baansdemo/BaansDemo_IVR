@@ -324,13 +324,9 @@ end
 
 function TestMenu( ... )
 
-	local MyTestMenu = '0'
-    SwamiVisionAddCallAction('12199520-DF34-471A-ADFC-4B1EDC0638D5', SwamiVisionTimeStamp())
-    MyTestMenu = channel.gather({play=audio_constants.TestMenuAudio, maxDigits=1, attempts=1, timeout=3, regex='[12]', invalidPlay=audio_constants.blank_audio})--, play=audio_constants.TestMenuAudio
-        
-        channel.say(MyTestMenu)
-
-        if MyTestMenu == '1' then
+	SwamiVisionAddCallAction('12199520-DF34-471A-ADFC-4B1EDC0638D5', SwamiVisionTimeStamp())
+    local MyTestMenu = channel.gather({play=audio_constants.TestMenuAudio, maxDigits=1, attempts=1, timeout=3, regex='[12]', invalidPlay=audio_constants.blank_audio})--, play=audio_constants.TestMenuAudio
+    if MyTestMenu == '1' then
         	demofunction()
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' ' ..  MyTestMenu .. ' ' .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())
@@ -341,17 +337,13 @@ function TestMenu( ... )
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. MyTestMenu .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())
             return NextFunction2
-		-- elseif MyTestMenu == '0' then
-		-- 	demofunction()
-        else
+	    else
         	if counter == 1 then
-        		demofunction()
-        	else
-        		demofunction()
+        		return demofunction()
         	end
-            -- writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' Caller did not make a selection' .. SwamiVisionTimeStamp())
-            -- SwamiVisionCloseCallAction(CallActionGUID, ' Caller did not make a selection', SwamiVisionTimeStamp())
-            -- return FailedCallTroubleFunction
+            writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' Caller did not make a selection' .. SwamiVisionTimeStamp())
+            SwamiVisionCloseCallAction(CallActionGUID, ' Caller did not make a selection', SwamiVisionTimeStamp())
+            return FailedCallTroubleFunction
         end
 end
 
@@ -424,6 +416,5 @@ local current = AppStart
 while current do
     current = current()
 end
-
 channel.hangup()
 --end of script--

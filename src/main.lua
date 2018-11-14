@@ -422,7 +422,7 @@ end
 
 --local digit = channel.gather({play=menuAudio, maxDigits=1, attempts=1, timeout=3, regex='[12]'})
 
-return TestMenu
+TestMenu()
 -- if digit == '1' then
 -- 	demofunction()
 

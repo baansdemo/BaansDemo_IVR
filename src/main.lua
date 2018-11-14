@@ -400,7 +400,7 @@ elseif number == '2625187672' then
 		audioselect(EmergencyTicket[i])
 	end
 
-elseif number == '+2625187673' then
+elseif number == '2625187673' then
 	audioselect(5)
 
 elseif number == '2625187646' then

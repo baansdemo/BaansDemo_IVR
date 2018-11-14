@@ -324,7 +324,7 @@ end
 
 function TestMenu( ... )
 
-	local MyTestMenu = 'invalid'
+	local MyTestMenu = '0'
     SwamiVisionAddCallAction('12199520-DF34-471A-ADFC-4B1EDC0638D5', SwamiVisionTimeStamp())
     MyTestMenu = channel.gather({play=audio_constants.TestMenuAudio, maxDigits=1, attempts=1, timeout=3, regex='[12]', invalidPlay=audio_constants.blank_audio})--, play=audio_constants.TestMenuAudio
         
@@ -341,7 +341,7 @@ function TestMenu( ... )
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. MyTestMenu .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())
             return NextFunction2
-		elseif MyTestMenu == 'invalid' then
+		elseif MyTestMenu == '0' then
 			demofunction()
         else
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' Caller did not make a selection' .. SwamiVisionTimeStamp())

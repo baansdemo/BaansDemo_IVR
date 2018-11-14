@@ -345,7 +345,7 @@ function TestMenu( ... )
 		-- 	demofunction()
         else
         	if counter == 1 then
-        		demofunction()
+        		return demofunction
         	end
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' Caller did not make a selection' .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, ' Caller did not make a selection', SwamiVisionTimeStamp())

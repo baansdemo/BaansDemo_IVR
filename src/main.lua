@@ -324,43 +324,26 @@ end
 
 function TestMenu( ... )
 
--- local menuAudio = {
---                 'asset://sounds/9_MenuSelectionAudio1.wav',
---                 'asset://sounds/10_MenuSelectionAudio2.wav'
---}
-
     SwamiVisionAddCallAction('12199520-DF34-471A-ADFC-4B1EDC0638D5', SwamiVisionTimeStamp())
     local MyTestMenu = channel.gather({play=audio_constants.TestMenuAudio, maxDigits=1, attempts=1, timeout=3, regex='[12]', invalidPlay=audio_constants.blank_audio})--, play=audio_constants.TestMenuAudio
         if MyTestMenu == '1' then
-        	channel.say('hello')
         	demofunction()
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' ' ..  MyTestMenu .. ' ' .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())
             return NextFunction1
         elseif MyTestMenu == '2' then
-        	channel.say('hello again')
    			counter = 0
 			--channel.dial('',{destinationType = 'outbound'})
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. MyTestMenu .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())
             return NextFunction2
-		elseif MyTestMenu == '' and counter == 1 then
-			channel.say('repeat')
+		elseif MyTestMenu == nil and counter == 1 then
 			demofunction()
         else
-        	channel.say('call hangup')
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' Caller did not make a selection' .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, ' Caller did not make a selection', SwamiVisionTimeStamp())
             return FailedCallTroubleFunction
         end
-
-
--- if counter == 1 then
--- demofunction()
--- elseif counter ~= 1 then
--- 	channel.hangup()
--- end
-
 end
 
 function audioselect(numb)
@@ -419,30 +402,7 @@ elseif number == '2625187161' then
 
 end
 
--- local menuAudio = {
---                 'asset://sounds/9_MenuSelectionAudio1.wav',
---                 'asset://sounds/10_MenuSelectionAudio2.wav'
--- }
-
---local digit = channel.gather({play=menuAudio, maxDigits=1, attempts=1, timeout=3, regex='[12]'})
-
 TestMenu()
--- if digit == '1' then
--- 	demofunction()
-
--- elseif digit == '2' then
--- counter = 0
--- --channel.dial('',{destinationType = 'outbound'})
--- channel.hangup()
--- end
-
---end
-
--- if counter == 1 then
--- demofunction()
--- elseif counter ~= 1 then
--- 	channel.hangup()
--- end
 
 end --demofunction() end
 
@@ -455,8 +415,6 @@ local current = AppStart
 while current do
     current = current()
 end
-
---demofunction()
 
 channel.hangup()
 --end of script--

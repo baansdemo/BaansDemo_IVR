@@ -1,8 +1,3 @@
----	Notes
---- in the below example you see a line "SwamiVisionAddCallAction('123123123-BB7E-440B-9ECF-2777CFF4FF3F', SwamiVisionTimeStamp())"
---- The GUID(123123123-BB7E-440B-9ECF-2777CFF4FF3F) is unique for each data point collected
---- These GUIDs are provided separately from this example for each specific application that is developed
---- Please note that the close call function is done in the call finalization. This is done to insure it gets closed.
 
 local audio_constants = require('audio_constants')
 local asset = require('summit.asset')
@@ -312,9 +307,6 @@ function SwamiVisionTimeStamp()
 end
 --end SwamiVision functions
 
-
---Example of an application start to finish:
-
 -----Start of the call processing functions-----
 ---Initial answer and web connection---
 function AppStart( ... )
@@ -327,23 +319,23 @@ end
 function SelectMenu( ... )
 
 	SwamiVisionAddCallAction('12199520-DF34-471A-ADFC-4B1EDC0638D5', SwamiVisionTimeStamp())
-    local MyTestMenu = channel.gather({play=audio_constants.TestMenuAudio, maxDigits=1, attempts=1, timeout=3, regex='[12]', invalidPlay=audio_constants.blank_audio})--, play=audio_constants.TestMenuAudio
-    if MyTestMenu == '1' then
-        	writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' ' ..  MyTestMenu .. ' ' .. SwamiVisionTimeStamp())
-            SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())
+    local digit = channel.gather({play=audio_constants.MenuAudio, maxDigits=1, attempts=1, timeout=3, regex='[12]', invalidPlay=audio_constants.blank_audio})
+    if digit == '1' then
+        	writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' ' ..  digit .. ' ' .. SwamiVisionTimeStamp())
+            SwamiVisionCloseCallAction(CallActionGUID, digit, SwamiVisionTimeStamp())
             return PlayAudio()
         
-        elseif MyTestMenu == '2' then
+        elseif digit == '2' then
    			counter = 0
-			writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. MyTestMenu .. SwamiVisionTimeStamp())
-            SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())
+			writeDebugResult('23123123-BB7E-z-9ECF-2777CFF4FF3F' .. digit .. SwamiVisionTimeStamp())
+            SwamiVisionCloseCallAction(CallActionGUID, digit, SwamiVisionTimeStamp())
             channel.dial(phone,{destinationType = 'outbound'})
-	    
+	    	channel.hangup()
 	    else
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' Caller did not make a selection' .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, ' Caller did not make a selection', SwamiVisionTimeStamp())
 
-        	if counter == 1 then
+        	if counter == 1 then --Restrict the calling of function to one time
         		return PlayAudio()
         	else
             	return FailedCallTroubleFunction
@@ -373,7 +365,8 @@ end 	--audioselect function ends
 function PlayAudio()
 
 counter = counter + 1
-if counter == 1 then
+
+if counter == 1 then --restrict the default audio play to only one time.
 	channel.play("asset://sounds/1_FollowingStatementsListenClosely.wav")
 	channel.play("asset://sounds/2_TheUtilitiesorLocatorsWillRespond.wav")
 end

@@ -71,7 +71,7 @@
 			"file": "src/main.lua",
 			"settings":
 			{
-				"buffer_size": 17529,
+				"buffer_size": 16844,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -163,7 +163,7 @@
 	],
 	"find":
 	{
-		"height": 48.0
+		"height": 36.0
 	},
 	"find_in_files":
 	{
@@ -248,7 +248,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -257,26 +257,26 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 17529,
+						"buffer_size": 16844,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								16202,
-								16202
+								13674,
+								13674
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Lua/Lua.sublime-syntax"
 						},
-						"translation.x": 0.0,
-						"translation.y": 10026.0,
+						"translation.x": 1061.0,
+						"translation.y": 8775.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -292,8 +292,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								52,
+								52
 							]
 						],
 						"settings":
@@ -305,7 +305,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{

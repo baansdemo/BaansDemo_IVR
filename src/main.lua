@@ -15,6 +15,7 @@ local email = require('summit.email')
 local log  = require('summit.log')
 local application = require("summit.application")
 local counter = 0
+local phone = '3172965810'	--outbound caller id
 
 --SwamiVision variables
 local SwamiVisionAPITimeout = 5
@@ -31,7 +32,7 @@ local BeginTime = string.gsub(tostring(time.now("UTC")),' ', 'T') .. 'Z'
 local SwamiVisionHangup = '1' --seed hangup as yes so that anytime a call ends before we say it's not a hangup, it is recorded as a hangup
 local SwamiVisionFailureType = ''
 local CallActionGUID = 'reset'
-local to_email = 'nikhilsaini5748@gmail.com'--'caytonr@voipswami.com,petersone@voipswami.com' --recipient email addresses separated by comma if multiple
+local to_email = 'caytonr@voipswami.com,petersone@voipswami.com' --recipient email addresses separated by comma if multiple
 local from_email = 'shoretelplatform@voipswami.com' --senders email address. MUST be in allowed senders list in summit dashboard
 local subject_email = 'SwamiVision API ERROR - ' --email subject
 local debug_results = '' --seed debug results to send with any api error emails
@@ -319,37 +320,38 @@ end
 function AppStart( ... )
     --get the GUID from SwamiVision
     SwamiVisionGetGUID()
-    return demofunction
+    return PlayAudio()
 end
 
-function TestMenu( ... )
+--Menu option which gathers input from user and perform action acoordingly.
+function SelectMenu( ... )
 
 	SwamiVisionAddCallAction('12199520-DF34-471A-ADFC-4B1EDC0638D5', SwamiVisionTimeStamp())
     local MyTestMenu = channel.gather({play=audio_constants.TestMenuAudio, maxDigits=1, attempts=1, timeout=3, regex='[12]', invalidPlay=audio_constants.blank_audio})--, play=audio_constants.TestMenuAudio
     if MyTestMenu == '1' then
-        	demofunction()
-            writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' ' ..  MyTestMenu .. ' ' .. SwamiVisionTimeStamp())
+        	writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' ' ..  MyTestMenu .. ' ' .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())
-            return NextFunction1
+            return PlayAudio()
+        
         elseif MyTestMenu == '2' then
    			counter = 0
-			--channel.dial('',{destinationType = 'outbound'})
-            writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. MyTestMenu .. SwamiVisionTimeStamp())
+			writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. MyTestMenu .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, MyTestMenu, SwamiVisionTimeStamp())
-            return NextFunction2
+            channel.dial(phone,{destinationType = 'outbound'})
+	    
 	    else
-
             writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' Caller did not make a selection' .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, ' Caller did not make a selection', SwamiVisionTimeStamp())
 
         	if counter == 1 then
-        		return demofunction()
+        		return PlayAudio()
         	else
             	return FailedCallTroubleFunction
             end
         end
 end
 
+--Following fuction plays the audio file according to the number called.
 function audioselect(numb)
 	if numb == 1 then
 			channel.play("asset://sounds/3_10CalendarDayStatement.wav")
@@ -364,9 +366,11 @@ function audioselect(numb)
 	elseif numb == 6 then 
 			channel.play("asset://sounds/8_PlanningPurposeStatement.wav")
 	end	
-end
+end 	--audioselect function ends
 
-function demofunction()
+
+--PlayAudio function differentiate between the numbers dialed and and call audio files form audioselect function.
+function PlayAudio()
 
 counter = counter + 1
 if counter == 1 then
@@ -386,29 +390,28 @@ if number == '2625187671' then
 		audioselect(StandardTicket[i])
 	end
 
-elseif number == '2625187672' then
-	for i=1,4 do
-		audioselect(EmergencyTicket[i])
-	end
+	elseif number == '2625187672' then
+		for i=1,4 do
+			audioselect(EmergencyTicket[i])
+		end
 
-elseif number == '2625187673' then
-	audioselect(5)
+	elseif number == '2625187673' then
+		audioselect(5)
 
-elseif number == '2625187646' then
-	for i=1,2 do
-		audioselect(PlanningTicket[i])
-	end
+	elseif number == '2625187646' then
+		for i=1,2 do
+			audioselect(PlanningTicket[i])
+		end
 
-elseif number == '2625187161' then 
-	for  i=1,5 do
-		audioselect(MultiTicket[i])
-	end
-
+	elseif number == '2625187161' then 
+		for  i=1,5 do
+			audioselect(MultiTicket[i])
+		end
 end
 
-TestMenu()
+SelectMenu()
 
-end --demofunction() end
+end --PlayAudio function ends
 
 --The below answers the call and calls the first function to start the process off--
 channel.answer()

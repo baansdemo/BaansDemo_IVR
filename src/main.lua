@@ -9,8 +9,8 @@ local cleanup  = require ('summit.cleanup')
 local email = require('summit.email')
 local log  = require('summit.log')
 local application = require("summit.application")
-local counter = 0
-local phone = '3172965810'	--outbound caller id
+local counter,menucount = 0
+local phone = '3172965810'	--Number dialed when user selects 2 in menu. 
 
 --SwamiVision variables
 local SwamiVisionAPITimeout = 5
@@ -60,7 +60,7 @@ cleanup.register(finalizeCall, 'finalizeCall', false)
 
 --Generic Functions
 function FailedCallTroubleFunction( ... )
-   channel.play('asset://InvalidInputGoodbye.wav')
+   channel.say("Goodbye")
    channel.hangup()
 end
 --End Generic Functions
@@ -318,25 +318,27 @@ end
 --Menu option which gathers input from user and perform action acoordingly.
 function SelectMenu( ... )
 
+	menucount = menucount + 1
+
 	SwamiVisionAddCallAction('12199520-DF34-471A-ADFC-4B1EDC0638D5', SwamiVisionTimeStamp())
     local digit = channel.gather({play=audio_constants.MenuAudio, maxDigits=1, attempts=1, timeout=3, regex='[12]', invalidPlay=audio_constants.blank_audio})
     if digit == '1' then
-        	writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' ' ..  digit .. ' ' .. SwamiVisionTimeStamp())
+        	writeDebugResult('12199520-DF34-471A-ADFC-4B1EDC0638D5' .. ' ' ..  digit .. ' ' .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, digit, SwamiVisionTimeStamp())
             return PlayAudio()
         
         elseif digit == '2' then
    			counter = 0
-			writeDebugResult('23123123-BB7E-z-9ECF-2777CFF4FF3F' .. digit .. SwamiVisionTimeStamp())
+			writeDebugResult('12199520-DF34-471A-ADFC-4B1EDC0638D5' .. digit .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, digit, SwamiVisionTimeStamp())
             channel.dial(phone,{destinationType = 'outbound'})
 	    	channel.hangup()
 	    else
-            writeDebugResult('23123123-BB7E-440B-9ECF-2777CFF4FF3F' .. ' Caller did not make a selection' .. SwamiVisionTimeStamp())
+            writeDebugResult('12199520-DF34-471A-ADFC-4B1EDC0638D5' .. ' Caller did not make a selection' .. SwamiVisionTimeStamp())
             SwamiVisionCloseCallAction(CallActionGUID, ' Caller did not make a selection', SwamiVisionTimeStamp())
 
-        	if counter == 1 then --Restrict the calling of function to one time
-        		return PlayAudio()
+        	if menucount == 1 then --Restrict the calling of function to one time
+        		return SelectMenu
         	else
             	return FailedCallTroubleFunction
             end
@@ -364,24 +366,24 @@ end 	--audioselect function ends
 --PlayAudio function differentiate between the numbers dialed and and call audio files form audioselect function.
 function PlayAudio()
 
-counter = counter + 1
+	counter = counter + 1
 
-if counter == 1 then --restrict the default audio play to only one time.
-	channel.play("asset://sounds/1_FollowingStatementsListenClosely.wav")
-	channel.play("asset://sounds/2_TheUtilitiesorLocatorsWillRespond.wav")
-end
-
-local number = application.get_destination()
-
-local StandardTicket = {1,2,3}
-local EmergencyTicket = {4,1,2,3}
-local PlanningTicket = {6,3}
-local MultiTicket = {1,2,3,5,6}
-
-if number == '2625187671' then
-	for i=1,3 do
-		audioselect(StandardTicket[i])
+	if counter == 1 then --restrict the default audio play to only one time.
+		channel.play("asset://sounds/1_FollowingStatementsListenClosely.wav")
+		channel.play("asset://sounds/2_TheUtilitiesorLocatorsWillRespond.wav")
 	end
+
+	local number = application.get_destination()
+
+	local StandardTicket = {1,2,3}
+	local EmergencyTicket = {4,1,2,3}
+	local PlanningTicket = {6,3}
+	local MultiTicket = {1,2,3,5,6}
+
+	if number == '2625187671' then
+		for i=1,3 do
+			audioselect(StandardTicket[i])
+		end
 
 	elseif number == '2625187672' then
 		for i=1,4 do
@@ -400,9 +402,9 @@ if number == '2625187671' then
 		for  i=1,5 do
 			audioselect(MultiTicket[i])
 		end
-end
+	end
 
-SelectMenu()
+	return SelectMenu
 
 end --PlayAudio function ends
 

@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"menu",
+				"menucount"
+			],
+			[
+				"Sa",
+				"say"
+			],
+			[
 				"play",
 				"PlayAudio"
 			],
@@ -75,7 +83,7 @@
 			"file": "src/main.lua",
 			"settings":
 			{
-				"buffer_size": 16656,
+				"buffer_size": 16743,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -181,6 +189,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"FailedCallTroubleFunction",
 			"nikhilsaini",
 			"MytestMenu",
 			"12199520-DF34-471A-ADFC-4B1EDC0638D5",
@@ -264,15 +273,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 16656,
+						"buffer_size": 16743,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								425,
-								451
+								2638,
+								2638
 							]
 						],
 						"settings":
@@ -280,7 +289,7 @@
 							"syntax": "Packages/Lua/Lua.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1677.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -385,7 +394,7 @@
 	"project": "BaansDemo_IVR.sublime-project",
 	"replace":
 	{
-		"height": 92.0
+		"height": 72.0
 	},
 	"save_all_on_build": true,
 	"select_file":

@@ -14,7 +14,7 @@ M.MenuAudio = {
 
 M.blank_audio= {
 
-   'asset://sounds/Titanic.wav'
+   'asset://sounds/blank.wav'
 
 }
 

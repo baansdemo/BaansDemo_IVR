@@ -355,7 +355,7 @@ function audioselect(numb)
 	elseif numb == 3 then 
 			channel.play("asset://sounds/5_PrivateLineStatement.wav")
 	elseif numb == 4 then 
-			channel.say("The member or members in question should respond by telephone as soon as possible or by the start date/time, whichever is later, to indicate when the facilities will be marked. No matter how the start date and time may read on the ticket itself, you will NOT be clear to dig until all member companies have responded in some fashion. In addition, excavating without waiting for member companies to respond and/or locate could result in you being liable for any damages that may occur.",{voice="man"})
+			channel.say("asset://sounds/6_EmergencyStatement.wav")
 	elseif numb == 5 then 
 			channel.play("asset://sounds/7_Relocates-LessThan3Days.wav")
 	elseif numb == 6 then 

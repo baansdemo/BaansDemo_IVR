@@ -355,7 +355,7 @@ function audioselect(numb)
 	elseif numb == 3 then 
 			channel.play("asset://sounds/5_PrivateLineStatement.wav")
 	elseif numb == 4 then 
-			channel.say("asset://sounds/6_EmergencyStatement.wav")
+			channel.play("asset://sounds/6_EmergencyStatement.wav")
 	elseif numb == 5 then 
 			channel.play("asset://sounds/7_Relocates-LessThan3Days.wav")
 	elseif numb == 6 then 
@@ -383,10 +383,11 @@ function PlayAudio()
 
 	if number == '2625187671' then
 		for i=1,3 do
+			--local numb = StandardTicket[i]
 			audioselect(StandardTicket[i])
 		end
 
-	elseif number == '2625187672' then
+	elseif number == '2625187672' thenm 
 		for i=1,4 do
 			audioselect(EmergencyTicket[i])
 		end

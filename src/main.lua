@@ -383,11 +383,10 @@ function PlayAudio()
 
 	if number == '2625187671' then
 		for i=1,3 do
-			--local numb = StandardTicket[i]
 			audioselect(StandardTicket[i])
 		end
 
-	elseif number == '2625187672' thenm 
+	elseif number == '2625187672' then 
 		for i=1,4 do
 			audioselect(EmergencyTicket[i])
 		end

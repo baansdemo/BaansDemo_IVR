@@ -9,7 +9,8 @@ local cleanup  = require ('summit.cleanup')
 local email = require('summit.email')
 local log  = require('summit.log')
 local application = require("summit.application")
-local counter,menucount = 0
+local counter = 0
+local menucount = 0
 local phone = '3172965810'	--Number dialed when user selects 2 in menu. 
 
 --SwamiVision variables

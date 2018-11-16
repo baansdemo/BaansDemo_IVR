@@ -61,7 +61,7 @@ cleanup.register(finalizeCall, 'finalizeCall', false)
 
 --Generic Functions
 function FailedCallTroubleFunction( ... )
-   channel.say("Goodbye")
+   channel.say("Goodbye",{voice="man"})
    channel.hangup()
 end
 --End Generic Functions
